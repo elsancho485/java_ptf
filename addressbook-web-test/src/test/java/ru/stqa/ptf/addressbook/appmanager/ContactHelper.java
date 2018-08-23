@@ -20,7 +20,7 @@ public class ContactHelper extends HelperBase {
 
     public void initContactModification() { click (By.xpath("/html/body/div[1]/div[4]/form[2]/table/tbody/tr[7]/td[8]/a/img")); }
 
-    public void submitGroupMidification() { click(By.name("update")); }
+    public void submitGroupModification() { click(By.name("update")); }
 
     public void selectContact() { click(By.name("selected[]")); }
 
