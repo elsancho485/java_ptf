@@ -14,11 +14,13 @@ public class ApplicationManager {
 
   private SessionHelper sessionHelper;
 
+  public ContactHelper contactHelper;
   private  NavigationHelper navigationHelper;
   private GroupHelper groupHelper;
   public StringBuffer verificationErrors = new StringBuffer();
   private String baseUrl;
   private boolean acceptNextAlert = true;
+
 
   public void init() {
     driver = new FirefoxDriver();
@@ -28,6 +30,7 @@ public class ApplicationManager {
     groupHelper = new GroupHelper(driver);
     navigationHelper = new NavigationHelper(driver);
     sessionHelper = new SessionHelper(driver);
+    contactHelper = new ContactHelper(driver);
     sessionHelper.login("admin", "secret");
   }
 
@@ -75,7 +78,7 @@ public class ApplicationManager {
     return groupHelper;
   }
 
-  public NavigationHelper getNavigationHelper() {
-    return navigationHelper;
-  }
+  public NavigationHelper getNavigationHelper() { return navigationHelper; }
+
+  public ContactHelper getContactHelper() { return contactHelper; }
 }

@@ -6,9 +6,7 @@ import ru.stqa.ptf.addressbook.model.GroupData;
 
 public class GroupHelper extends HelperBase {
 
-  public GroupHelper(WebDriver driver) {
-    super(driver);
-  }
+  public GroupHelper(WebDriver driver) { super(driver); }
 
   public void returnToGroupPage() {
     click(By.linkText("group page"));
