@@ -30,7 +30,7 @@ public class ApplicationManager {
   public void init() {
     driver = new FirefoxDriver();
     baseUrl = "https://www.katalon.com/";
-    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+    driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
     driver.get("http://localhost/addressbook");
     groupHelper = new GroupHelper(driver);
     navigationHelper = new NavigationHelper(driver);
