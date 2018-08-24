@@ -15,10 +15,15 @@ public class ApplicationManager {
   private SessionHelper sessionHelper;
 
   public ContactHelper contactHelper;
+
   private  NavigationHelper navigationHelper;
+
   private GroupHelper groupHelper;
+
   public StringBuffer verificationErrors = new StringBuffer();
+
   private String baseUrl;
+
   private boolean acceptNextAlert = true;
 
 
@@ -26,7 +31,7 @@ public class ApplicationManager {
     driver = new FirefoxDriver();
     baseUrl = "https://www.katalon.com/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-    driver.get("http://localhost/addressbook/group.php");
+    driver.get("http://localhost/addressbook");
     groupHelper = new GroupHelper(driver);
     navigationHelper = new NavigationHelper(driver);
     sessionHelper = new SessionHelper(driver);
