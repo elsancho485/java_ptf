@@ -2,8 +2,12 @@ package ru.stqa.ptf.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import ru.stqa.ptf.addressbook.model.ContactData;
 import ru.stqa.ptf.addressbook.model.GroupData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends HelperBase {
     public ContactHelper(WebDriver driver) {
@@ -27,6 +31,20 @@ public class ContactHelper extends HelperBase {
     public void initDeletionContact() { click(By.xpath("/html/body/div[1]/div[4]/form[2]/div[2]/input")); }
 
     public void deleteSelectedContact() { driver.switchTo().alert().accept(); }
+
+    public List<ContactData> getContactList() {
+        List<ContactData> contacts = new ArrayList<ContactData>();
+        List<WebElement> elements = driver.findElements(By.cssSelector("#maintable [name=entry]"));
+        for (WebElement element : elements) {
+            int id = Integer.parseInt(element.findElement(By.cssSelector("input")).getAttribute("value"));
+            List<WebElement> tds = element.findElements(By.cssSelector("td"));
+            String lastname = tds.get(1).getText();
+            String firstname = tds.get(2).getText();
+            ContactData contact = new ContactData(id, firstname, null , lastname);
+            contacts.add(contact);
+        }
+        return contacts;
+    }
 }
 
 
