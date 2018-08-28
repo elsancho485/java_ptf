@@ -7,13 +7,9 @@ import ru.stqa.ptf.addressbook.model.GroupData;
 import java.util.List;
 
 public class GroupDeletionTest extends TestBase {
-  private boolean acceptNextAlert = true;
-  private StringBuffer verificationErrors = new StringBuffer();
-
-
 
   @Test
-  public void testGroupDeletion() throws Exception {
+  public void testGroupDeletion() {
     app.getNavigationHelper().gotoGroupPage();
     app.getGroupHelper().isThereAGroup(new GroupData("Suka",  "", ""));
     List<GroupData> before = app.getGroupHelper().getGroupList();
@@ -22,7 +18,6 @@ public class GroupDeletionTest extends TestBase {
     app.getGroupHelper().returnToGroupPage();
     List<GroupData> after = app.getGroupHelper().getGroupList();
     Assert.assertEquals(after.size(), before.size() - 1);
-
 
     before.remove(before.size() - 1);
     Assert.assertEquals(before, after);

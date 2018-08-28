@@ -12,10 +12,10 @@ public class CreationContactTest extends TestBase {
 
     @Test
     public void testCreationContact() {
+        app.getNavigationHelper().gotoHomePage();
         List<ContactData> before = app.getContactHelper().getContactList();
-        int nextId = before.get(before.size() - 1).getId() + 1;
         app.getNavigationHelper().gotoAddNewPage();
-        ContactData contact = new ContactData(nextId, "durnek", null, "govnina");
+        ContactData contact = new ContactData( "durnek", null, "govnina");
         app.getContactHelper().fillContactForm(contact);
         app.getContactHelper().submitContact();
         app.getNavigationHelper().gotoHomePage();

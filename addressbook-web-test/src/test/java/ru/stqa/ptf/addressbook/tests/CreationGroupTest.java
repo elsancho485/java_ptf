@@ -10,7 +10,7 @@ import java.util.List;
 public class CreationGroupTest extends TestBase {
 
   @Test
-  public void testCreationGroup() throws Exception {
+  public void testCreationGroup() {
     app.getNavigationHelper().gotoGroupPage();
     List<GroupData> before = app.getGroupHelper().getGroupList();
     GroupData group = new GroupData("test1", "test2", "test3");
