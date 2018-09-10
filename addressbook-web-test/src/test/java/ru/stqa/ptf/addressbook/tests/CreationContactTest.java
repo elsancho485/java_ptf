@@ -10,15 +10,15 @@ import java.util.List;
 public class CreationContactTest extends TestBase {
 
 
-    @Test
+    @Test(enabled = false)
     public void testCreationContact() {
-        app.getNavigationHelper().gotoHomePage();
+        app.goTo().gotoHomePage();
         List<ContactData> before = app.getContactHelper().getContactList();
-        app.getNavigationHelper().gotoAddNewPage();
+        app.goTo().gotoAddNewPage();
         ContactData contact = new ContactData( "durnek", null, "govnina");
         app.getContactHelper().fillContactForm(contact);
         app.getContactHelper().submitContact();
-        app.getNavigationHelper().gotoHomePage();
+        app.goTo().gotoHomePage();
         List<ContactData> after = app.getContactHelper().getContactList();
         Assert.assertEquals(after.size() , before.size() + 1);
 

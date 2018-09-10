@@ -7,6 +7,7 @@ import ru.stqa.ptf.addressbook.model.ContactData;
 import ru.stqa.ptf.addressbook.model.GroupData;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ContactHelper extends HelperBase {
@@ -26,9 +27,9 @@ public class ContactHelper extends HelperBase {
 
     public void submitContact() { click (By.name("submit"));}
 
-    public void initContactModification() { click (By.xpath("/html/body/div[1]/div[4]/form[2]/table/tbody/tr[7]/td[8]/a/img")); }
+    public void initContactModification(int editId) { clickLinkByHref("edit.php?id=", editId); }
 
-    public void submitGroupModification() { click(By.name("update")); }
+    public void submitContactModification() { click(By.name("update")); }
 
     public void selectContact(int index) { driver.findElements(By.name("selected[]")).get(index).click(); }
 
@@ -36,6 +37,12 @@ public class ContactHelper extends HelperBase {
 
     public void deleteSelectedContact() { driver.switchTo().alert().accept(); }
 
+    public void isThereAContact(ContactData contact) {
+            int n = driver.findElements(By.name("selected[]")).size();
+            if (n == 0) {
+                createContact(contact);
+            }
+        }
 
     public List<ContactData> getContactList() {
         List<ContactData> contacts = new ArrayList<ContactData>();
@@ -51,20 +58,34 @@ public class ContactHelper extends HelperBase {
         return contacts;
     }
 
-    public void isThereAContact(ContactData contact) {
-            int n = driver.findElements(By.name("selected[]")).size();
-            if (n == 0) {
-                createContact(contact);
-            }
-        }
 
-        public void createContact(ContactData contact) {
+    public void createContact(ContactData contact) {
             gotoAddNewPage();
             fillContactForm(contact);
             submitContact();
             gotoHomePage();
         }
+
+//Штука, благодаря которой мы ищем все href по странице и выбираем нужную по position
+    public void clickLinkByHref(String href, int position) {
+        List<WebElement> anchors = driver.findElements(By.tagName("a"));
+        Iterator<WebElement> i = anchors.iterator();
+        int j = 0;
+        while(i.hasNext()) {
+            WebElement anchor = i.next();
+            if(anchor.getAttribute("href").contains(href)) {
+                j++;
+            }
+            if(anchor.getAttribute("href").contains(href)
+                    && j == position) {
+                anchor.click();
+                break;
+            }
+        }
     }
+
+
+}
 
 
 
