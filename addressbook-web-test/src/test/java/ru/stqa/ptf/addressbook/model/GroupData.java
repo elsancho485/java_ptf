@@ -52,8 +52,10 @@ public class GroupData {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name);
-  }
+    int result = id;
+    result = 31 * result + (name != null ? name.hashCode() : 0);
+    return result;
+    }
 
   @Override
   public String toString() {
