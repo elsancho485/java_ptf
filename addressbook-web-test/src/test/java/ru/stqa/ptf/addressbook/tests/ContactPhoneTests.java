@@ -8,8 +8,8 @@ public class ContactPhoneTests extends TestBase {
     @Test (enabled = false)
     public void testContactPhone() {
         app.goTo().gotoHomePage();
-        ContactData contact = app.contact().all().iterator().next();
-        ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
+//        ContactData contact = app.contact().all().iterator().next();
+//        ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
     }
 
 }

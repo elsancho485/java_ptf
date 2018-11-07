@@ -4,8 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.stqa.ptf.addressbook.model.ContactData;
-import ru.stqa.ptf.addressbook.model.GroupData;
-
+import ru.stqa.ptf.addressbook.model.Contacts;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -40,31 +39,23 @@ public class ContactHelper extends HelperBase {
     public void isThereAContact(ContactData contact) {
             int n = driver.findElements(By.name("selected[]")).size();
             if (n == 0) {
-                createContact(contact);
+                create(contact);
             }
         }
 
-    public List<ContactData> getContactList() {
-        List<ContactData> contacts = new ArrayList<ContactData>();
-        List<WebElement> rows = driver.findElements(By.cssSelector("#maintable [name=entry]"));
-        for (WebElement row : rows) {
-            int id = Integer.parseInt(row.findElement(By.cssSelector("input")).getAttribute("value"));
-            List<WebElement> tds = row.findElements(By.cssSelector("td"));
-            String firstname = tds.get(2).getText();
-            String lastname = tds.get(1).getText();
-            ContactData contact = new ContactData(id, firstname, null, lastname);
-            contacts.add(contact);
-        }
-        return contacts;
-    }
 
-
-    public void createContact(ContactData contact) {
+    public void create(ContactData contact) {
             gotoAddNewPage();
             fillContactForm(contact);
             submitContact();
+            contactCache = null;
             gotoHomePage();
         }
+
+    public void modify(ContactData contact) {
+            gotoAddNewPage();
+
+    }
 
 //Штука, благодаря которой мы ищем все href по странице и выбираем нужную по position
     public void clickLinkByHref(String href, int position) {
@@ -83,6 +74,25 @@ public class ContactHelper extends HelperBase {
             }
         }
     }
+
+    private Contacts contactCache = null;
+
+    public Contacts all() {
+        if (contactCache != null) {
+            return new Contacts(contactCache);
+        }
+        contactCache = new Contacts();
+        List<WebElement> elements = driver.findElements(By.cssSelector("#maintable [name=entry]"));
+        for (WebElement element : elements) {
+            int id = Integer.parseInt(element.findElement(By.cssSelector("input")).getAttribute("value"));
+            List<WebElement> tds = element.findElements(By.cssSelector("td"));
+            String lastname = tds.get(1).getText();
+            String firstname = tds.get(2).getText();
+            contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname));
+        }
+        return new Contacts(contactCache);
+    }
+
 
 
 }

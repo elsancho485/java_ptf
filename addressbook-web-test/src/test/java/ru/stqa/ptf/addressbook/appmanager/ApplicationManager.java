@@ -4,7 +4,10 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.BrowserType;
+import org.openqa.selenium.safari.SafariDriver;
 
 import java.util.concurrent.TimeUnit;
 
@@ -26,9 +29,17 @@ public class ApplicationManager {
 
   private boolean acceptNextAlert = true;
 
+  private String browser;
+
+  public ApplicationManager(String browser) {
+    this.browser = browser;
+  }
+
 
   public void init() {
-    driver = new FirefoxDriver();
+    if (browser.equals(BrowserType.FIREFOX)) {driver = new FirefoxDriver();}
+    else if ((browser.equals(BrowserType.CHROME))) {driver = new ChromeDriver();}
+    else if ((browser.equals(BrowserType.SAFARI))) {driver = new SafariDriver();}
     baseUrl = "https://www.katalon.com/";
     driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
     driver.get("http://localhost/addressbook");
@@ -85,5 +96,5 @@ public class ApplicationManager {
 
   public NavigationHelper goTo() { return navigationHelper; }
 
-  public ContactHelper getContactHelper() { return contactHelper; }
+  public ContactHelper contact() { return contactHelper; }
 }
