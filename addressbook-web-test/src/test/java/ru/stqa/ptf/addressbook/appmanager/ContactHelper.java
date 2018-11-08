@@ -32,9 +32,9 @@ public class ContactHelper extends HelperBase {
 
     public void submitContactModification() { click(By.name("update")); }
 
-    public void initDeletionContact() { click(By.xpath("/html/body/div[1]/div[4]/form[2]/div[2]/input")); }
+    public void deleteSelectedContact() { click(By.xpath("/html/body/div[1]/div[4]/form[2]/div[2]/input")); }
 
-    public void deleteSelectedContact() { driver.switchTo().alert().accept(); }
+    public void closeDialogWindow() { driver.switchTo().alert().accept(); }
 
     public int count() { return driver.findElements(By.name("selected[]")).size(); }
 
@@ -53,7 +53,15 @@ public class ContactHelper extends HelperBase {
             submitContactModification();
             contactCache = null;
             gotoHomePage();
+        }
 
+    public  void delete(ContactData contact) {
+            gotoHomePage();
+            selectContactById(contact.getId());
+            deleteSelectedContact();
+            closeDialogWindow();
+            contactCache = null;
+            gotoHomePage();
     }
 
     private Contacts contactCache = null;
