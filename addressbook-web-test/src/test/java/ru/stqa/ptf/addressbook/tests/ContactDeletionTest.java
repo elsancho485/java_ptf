@@ -12,13 +12,13 @@
 //
 //    @Test(enabled = false)
 //    public void testContactDeletion() {
-//        app.goTo().gotoHomePage();
+//        app.goTo().homePage();
 //        app.contact().isThereAContact(new ContactData("privet", "snezhok", "zhenyok"));
 //        List<ContactData> before = app.contact().getContactList();
 //        app.contact().selectContact(before.size() - 1);
 //        app.contact().initDeletionContact();
 //        app.contact().deleteSelectedContact();
-//        app.goTo().gotoHomePage();
+//        app.goTo().homePage();
 //        List<ContactData> after = app.contact().getContactList();
 //        Assert.assertEquals(after.size(), before.size() - 1);
 //

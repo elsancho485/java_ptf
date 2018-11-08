@@ -26,23 +26,17 @@ public class ContactHelper extends HelperBase {
 
     public void submitContact() { click (By.name("submit"));}
 
-    public void initContactModification(int editId) { clickLinkByHref("edit.php?id=", editId); }
+    public void selectContactById (int id) { driver.findElement(By.cssSelector("input[value='" + id + "']")).click(); }
+
+    public void goToModifyContact(int id) { driver.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();}
 
     public void submitContactModification() { click(By.name("update")); }
-
-    public void selectContact(int index) { driver.findElements(By.name("selected[]")).get(index).click(); }
 
     public void initDeletionContact() { click(By.xpath("/html/body/div[1]/div[4]/form[2]/div[2]/input")); }
 
     public void deleteSelectedContact() { driver.switchTo().alert().accept(); }
 
-    public void isThereAContact(ContactData contact) {
-            int n = driver.findElements(By.name("selected[]")).size();
-            if (n == 0) {
-                create(contact);
-            }
-        }
-
+    public int count() { return driver.findElements(By.name("selected[]")).size(); }
 
     public void create(ContactData contact) {
             gotoAddNewPage();
@@ -53,26 +47,13 @@ public class ContactHelper extends HelperBase {
         }
 
     public void modify(ContactData contact) {
-            gotoAddNewPage();
+            gotoHomePage();
+            goToModifyContact(contact.getId());
+            fillContactForm(contact);
+            submitContactModification();
+            contactCache = null;
+            gotoHomePage();
 
-    }
-
-//Штука, благодаря которой мы ищем все href по странице и выбираем нужную по position
-    public void clickLinkByHref(String href, int position) {
-        List<WebElement> anchors = driver.findElements(By.tagName("a"));
-        Iterator<WebElement> i = anchors.iterator();
-        int j = 0;
-        while(i.hasNext()) {
-            WebElement anchor = i.next();
-            if(anchor.getAttribute("href").contains(href)) {
-                j++;
-            }
-            if(anchor.getAttribute("href").contains(href)
-                    && j == position) {
-                anchor.click();
-                break;
-            }
-        }
     }
 
     private Contacts contactCache = null;
