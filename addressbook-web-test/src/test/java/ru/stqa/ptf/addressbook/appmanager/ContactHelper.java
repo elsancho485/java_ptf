@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.stqa.ptf.addressbook.model.ContactData;
 import ru.stqa.ptf.addressbook.model.Contacts;
+
 import java.util.List;
 
 public class ContactHelper extends HelperBase {
@@ -18,48 +19,66 @@ public class ContactHelper extends HelperBase {
         type(By.name("lastname"), contactData.getLastname());
     }
 
-    public void gotoHomePage() { click(By.linkText("home")); }
+    public void gotoHomePage() {
+        click(By.linkText("home"));
+    }
 
-    public void gotoAddNewPage() { click(By.linkText("add new")); }
+    public void gotoAddNewPage() {
+        click(By.linkText("add new"));
+    }
 
-    public void submitContact() { click (By.name("submit"));}
+    public void submitContact() {
+        click(By.name("submit"));
+    }
 
-    public void selectContactById (int id) { driver.findElement(By.cssSelector("input[value='" + id + "']")).click(); }
+    public void selectContactById(int id) {
+        driver.findElement(By.cssSelector("input[value='" + id + "']")).click();
+    }
 
-    public void goToModifyContact(int id) { driver.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();}
+    public void goToModifyContact(int id) {
+        driver.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();
+    }
 
-    public void submitContactModification() { click(By.name("update")); }
+    public void submitContactModification() {
+        click(By.name("update"));
+    }
 
-    public void deleteSelectedContact() { click(By.xpath("/html/body/div[1]/div[4]/form[2]/div[2]/input")); }
+    public void deleteSelectedContact() {
+        click(By.xpath("/html/body/div[1]/div[4]/form[2]/div[2]/input"));
+    }
 
-    public void closeDialogWindow() { driver.switchTo().alert().accept(); }
+    public void closeDialogWindow() {
+        driver.switchTo().alert().accept();
+    }
 
-    public int count() { return driver.findElements(By.name("selected[]")).size(); }
+    public int count() {
+        return driver.findElements(By.name("selected[]")).size();
+    }
 
     public void create(ContactData contact) {
-            gotoAddNewPage();
-            fillContactForm(contact);
-            submitContact();
-            contactCache = null;
-            gotoHomePage();
-        }
+        gotoAddNewPage();
+        fillContactForm(contact);
+        submitContact();
+        contactCache = null;
+        gotoHomePage();
+    }
 
     public void modify(ContactData contact) {
-            gotoHomePage();
-            goToModifyContact(contact.getId());
-            fillContactForm(contact);
-            submitContactModification();
-            contactCache = null;
-            gotoHomePage();
-        }
+        gotoHomePage();
+        goToModifyContact(contact.getId());
+        fillContactForm(contact);
+        submitContactModification();
+        contactCache = null;
+        gotoHomePage();
+    }
 
-    public  void delete(ContactData contact) {
-            gotoHomePage();
-            selectContactById(contact.getId());
-            deleteSelectedContact();
-            closeDialogWindow();
-            contactCache = null;
-            gotoHomePage();
+    public void delete(ContactData contact) {
+        gotoHomePage();
+        selectContactById(contact.getId());
+        deleteSelectedContact();
+        closeDialogWindow();
+        contactCache = null;
+        gotoHomePage();
     }
 
     private void initContactModificationById(int id) {
@@ -94,9 +113,9 @@ public class ContactHelper extends HelperBase {
             List<WebElement> tds = element.findElements(By.cssSelector("td"));
             String lastname = tds.get(1).getText();
             String firstname = tds.get(2).getText();
-            String[] phones = tds.get(5).getText().split("\n");
+            String allPhones = tds.get(5).getText();
             contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname)
-                    .withHomePhone(phones[0]).withMobilePhone(phones[1]).withWorkPhone(phones[2]));
+                    .withAllPhones(allPhones));
         }
         return new Contacts(contactCache);
     }
