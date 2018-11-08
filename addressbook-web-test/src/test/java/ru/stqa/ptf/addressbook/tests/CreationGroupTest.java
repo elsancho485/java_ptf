@@ -1,6 +1,5 @@
 package ru.stqa.ptf.addressbook.tests;
 
-
 import org.testng.annotations.*;
 import ru.stqa.ptf.addressbook.model.GroupData;
 import ru.stqa.ptf.addressbook.model.Groups;

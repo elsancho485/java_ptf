@@ -5,8 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.stqa.ptf.addressbook.model.ContactData;
 import ru.stqa.ptf.addressbook.model.Contacts;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class ContactHelper extends HelperBase {
@@ -64,6 +62,25 @@ public class ContactHelper extends HelperBase {
             gotoHomePage();
     }
 
+    private void initContactModificationById(int id) {
+        WebElement checkbox = driver.findElement(By.cssSelector(String.format("input[value='%s']", id)));
+        WebElement row = checkbox.findElement(By.xpath("./../.."));
+        List<WebElement> cells = row.findElements(By.tagName("td"));
+        cells.get(7).findElement(By.tagName("a")).click();
+    }
+
+    public ContactData infoFromEditForm(ContactData contact) {
+        initContactModificationById(contact.getId());
+        String firstname = driver.findElement(By.name("firstname")).getAttribute("value");
+        String lastname = driver.findElement(By.name("lastname")).getAttribute("value");
+        String home = driver.findElement(By.name("home")).getAttribute("value");
+        String mobile = driver.findElement(By.name("mobile")).getAttribute("value");
+        String work = driver.findElement(By.name("work")).getAttribute("value");
+        driver.navigate().back();
+        return new ContactData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname)
+                .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work);
+    }
+
     private Contacts contactCache = null;
 
     public Contacts all() {
@@ -77,14 +94,11 @@ public class ContactHelper extends HelperBase {
             List<WebElement> tds = element.findElements(By.cssSelector("td"));
             String lastname = tds.get(1).getText();
             String firstname = tds.get(2).getText();
-            contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname));
+            String[] phones = tds.get(5).getText().split("\n");
+            contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname)
+                    .withHomePhone(phones[0]).withMobilePhone(phones[1]).withWorkPhone(phones[2]));
         }
         return new Contacts(contactCache);
     }
 
-
-
 }
-
-
-
