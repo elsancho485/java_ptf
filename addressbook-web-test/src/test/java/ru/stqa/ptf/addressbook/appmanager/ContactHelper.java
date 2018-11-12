@@ -23,6 +23,7 @@ public class ContactHelper extends HelperBase {
         type(By.name("home"), contactData.getHomePhone());
         type(By.name("work"), contactData.getWorkPhone());
         type(By.name("mobile"), contactData.getMobilePhone());
+        attach(By.name("photo"), contactData.getPhoto());
     }
 
     public void gotoHomePage() {
