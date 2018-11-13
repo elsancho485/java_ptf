@@ -9,10 +9,16 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.safari.SafariDriver;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 public class ApplicationManager {
 
+  private final Properties properties;
   protected WebDriver driver;
 
   private SessionHelper sessionHelper;
@@ -33,32 +39,25 @@ public class ApplicationManager {
 
   public ApplicationManager(String browser) {
     this.browser = browser;
+    properties = new Properties();
   }
 
 
-  public void init() {
+  public void init() throws IOException {
+    String target = System.getProperty("target", "local");
+    properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties",target))));
+
     if (browser.equals(BrowserType.FIREFOX)) {driver = new FirefoxDriver();}
     else if ((browser.equals(BrowserType.CHROME))) {driver = new ChromeDriver();}
     else if ((browser.equals(BrowserType.SAFARI))) {driver = new SafariDriver();}
     baseUrl = "https://www.katalon.com/";
     driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-    driver.get("http://localhost/addressbook");
+    driver.get(properties.getProperty("web.baseUrl"));
     groupHelper = new GroupHelper(driver);
     navigationHelper = new NavigationHelper(driver);
     sessionHelper = new SessionHelper(driver);
     contactHelper = new ContactHelper(driver);
-    sessionHelper.login("admin", "secret");
-  }
-
-  public void login(String username, String password) {
-    driver.findElement(By.name("user")).click();
-    driver.findElement(By.name("user")).clear();
-    driver.findElement(By.name("user")).sendKeys(username);
-    driver.findElement(By.id("LoginForm")).click();
-    driver.findElement(By.name("pass")).click();
-    driver.findElement(By.name("pass")).clear();
-    driver.findElement(By.name("pass")).sendKeys(password);
-    driver.findElement(By.xpath("//input[@value='Login']")).click();
+    sessionHelper.login(properties.getProperty("web.adminLogin"), properties.getProperty("web.adminPassword"));
   }
 
   public void stop() {
