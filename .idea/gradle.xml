@@ -22,10 +22,28 @@
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/innerzone_sports" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/innerzone_sports" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/sandbox" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/sandbox" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/wombat_admin" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/wombat_admin" />
           </set>
         </option>
       </GradleProjectSettings>
