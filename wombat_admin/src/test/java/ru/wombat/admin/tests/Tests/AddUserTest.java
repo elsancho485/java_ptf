@@ -26,5 +26,13 @@ public class AddUserTest extends TestBase {
         fillAddUserFormWithExistingEmail();
         submitUserCreation();
         searchForExistingEmailError();
+        closeAddUserForm();
+    }
+
+    @Test
+    public void adminCanEditUserData() {
+        goToEditUserData();
+        edtiFirstAndLastName();
+        searchCreatedUserInList();
     }
 }

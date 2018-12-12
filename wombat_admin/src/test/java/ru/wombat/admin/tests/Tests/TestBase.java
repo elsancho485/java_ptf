@@ -1,11 +1,11 @@
 package ru.wombat.admin.tests.Tests;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeSuite;
 import ru.wombat.admin.tests.DataAndHelpers.UserData;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
 
 public class TestBase extends UserData {
@@ -37,9 +37,14 @@ public class TestBase extends UserData {
         $(By.className("button__src-shared-AddButton-__3G-")).click();
     }
 
-    public void searchCreatedUserInList() { //Ищем имя и фамилиюсозданного юзера в первой строке списка
-        $(By.className("name__src-users-components-UsersListItem-__1eu")).shouldHave(Condition.text(firstname.toUpperCase() + " " + lastname.toUpperCase()));
-        sleep(1000);
+    public void goToEditUserData() { //Переход к форме редактирования сотрудника
+        sleep(500);
+        $(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Активные'])[1]/following::p[1]")).click();
+    }
+
+    public void searchCreatedUserInList() { //Ищем имя и фамилию, созданного юзера в первой строке списка
+        $(By.className("name__src-users-components-UsersListItem-__1eu")).waitUntil(text(firstname().toUpperCase() + " " + lastname().toUpperCase()), 20000);
+
     }
 
     public void searchForEmptyFieldsError() { // Поиск ошбибки о пустом поле
@@ -52,8 +57,7 @@ public class TestBase extends UserData {
         sleep(1000);
     }
 
-    public void closeAddUserForm() {
+    public void closeAddUserForm() { //Клик по кнопке закрытия формы добавления сотрудника
         $(By.className("closeButton__src-users-components-NewUserForm-__Isr")).click();
-        sleep(1000);
     }
 }
