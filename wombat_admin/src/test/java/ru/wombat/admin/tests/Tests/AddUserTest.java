@@ -32,7 +32,14 @@ public class AddUserTest extends TestBase {
     @Test
     public void adminCanEditUserData() {
         goToEditUserData();
-        edtiFirstAndLastName();
+        editFirstAndLastName();
         searchCreatedUserInList();
+    }
+
+    @Test
+    public void adminCanArchivateUser() {
+        searchUserNameInEditFormBefore();
+        archivateUser();
+        searchUserNameInEditFormAfter();
     }
 }

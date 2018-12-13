@@ -5,7 +5,8 @@ import org.openqa.selenium.By;
 import org.testng.annotations.BeforeSuite;
 import ru.wombat.admin.tests.DataAndHelpers.UserData;
 
-import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class TestBase extends UserData {
@@ -42,9 +43,33 @@ public class TestBase extends UserData {
         $(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Активные'])[1]/following::p[1]")).click();
     }
 
+
+    public void archivateUser() { //Отправка сотрудника из 1 ячейки в архив
+        $(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Пользователь'])[1]/following::img[2]")).click();
+        $(byText("Да")).click();
+        sleep(5000);
+    }
+
     public void searchCreatedUserInList() { //Ищем имя и фамилию, созданного юзера в первой строке списка
         $(By.className("name__src-users-components-UsersListItem-__1eu")).waitUntil(text(firstname().toUpperCase() + " " + lastname().toUpperCase()), 20000);
+    }
 
+
+    public void searchUserNameInEditFormBefore() { //Поиск имени и фамилии в форме редактирования сотрудника до совершения действия с ним
+        $(By.className("name__src-users-components-UsersListItem-__1eu")).waitUntil(visible, 3000);
+        $(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Активные'])[1]/following::p[1]")).click();
+        getFirstNameInEditForm();
+        getLastNameInEditForm();
+        $(By.className("closeButton__src-users-components-ReEditUserForm-__20P")).click();
+    }
+
+    public void searchUserNameInEditFormAfter() { //Поиск имени и фамилии в форме редактирования сотрудника после совершения действия с ним
+        $(By.className("name__src-users-components-UsersListItem-__1eu")).waitUntil(visible, 3000);
+        $(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Активные'])[1]/following::p[1]")).click();
+        getFirstNameInEditForm();
+        getLastNameInEditForm();
+        $(By.className("name__src-users-components-UsersListItem-__1eu")).shouldNotHave(value(getFirstNameInEditForm() + getLastNameInEditForm()));
+        $(By.className("closeButton__src-users-components-ReEditUserForm-__20P")).click();
     }
 
     public void searchForEmptyFieldsError() { // Поиск ошбибки о пустом поле
