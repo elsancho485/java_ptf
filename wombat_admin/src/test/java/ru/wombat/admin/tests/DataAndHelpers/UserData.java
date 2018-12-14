@@ -14,13 +14,13 @@ public class UserData { //Данные пользователя
 
     private String firstName, lastName;
 
-    public String email() {
+    public String email() { //Генерация email для создания юзера
         Fairy fairy = Fairy.create();
         Person person = fairy.person();
         return person.lastName();
     }
 
-    public String firstname() {
+    public String firstname() { //Генерация имени для создания юзера
         if(firstName == null) {
             Fairy fairy = Fairy.create();
             Person person = fairy.person();
@@ -29,15 +29,14 @@ public class UserData { //Данные пользователя
         return firstName;
     }
 
-    public String generateFirstname() {
+    public String generateFirstname() { // Генерация имени для редактирования юзера
         Fairy fairy = Fairy.create();
         Person person = fairy.person();
         firstName = person.firstName();
         return firstName;
     }
 
-
-    public String lastname() {
+    public String lastname() { //Генерация фамилии для создания юзера
         if(lastName == null) {
             Fairy fairy = Fairy.create();
             Person person = fairy.person();
@@ -46,21 +45,20 @@ public class UserData { //Данные пользователя
         return lastName;
     }
 
-    public String generateLastname() {
+    public String generateLastname() { // Генерация фамилии для редактирования юзера
         Fairy fairy = Fairy.create();
         Person person = fairy.person();
         lastName = person.lastName();
         return lastName;
     }
 
-
-    public String phone() {
+    public String phone() { //Генерация номера телефона
         Fairy fairy = Fairy.create();
         Person person = fairy.person();
         return person.telephoneNumber();
     }
 
-    public String telegram() {
+    public String telegram() { // Генерация юзернейма в телеграме
         Fairy fairy = Fairy.create();
         Person person = fairy.person();
         return person.lastName();
@@ -76,8 +74,23 @@ public class UserData { //Данные пользователя
         return lastNameInEditForm;
     }
 
-    public String worksSince = "11.04.2010";
-    public String birthdate = "11.07.1998";
+    public String getGradeNumberBeforeUpgrade() { //Подтягиваем грейд из первой ячейки до повышения
+        String gradeIndex = $(By.cssSelector("div[class^='grade__src-users-components-UsersListItem-__etq']")).getText();
+        return gradeIndex.valueOf(gradeIndex.split("G")[1]);
+    }
+
+    public Integer getNextGrade() { //Определяем следующий грейд
+        int nextGrade = (Integer.valueOf(getGradeNumberBeforeUpgrade()) + 2);
+        return nextGrade;
+    }
+
+    public String getGradeNumberAfterUpgrade() { //Подтягиваем грейд из первой ячейки после повышения
+        String gradeIndex = $(By.cssSelector("div[class^='grade__src-users-components-UsersListItem-__etq']")).getText();
+        return gradeIndex.valueOf(gradeIndex.split("G")[1]);
+    }
+
+    public String worksSince = "11.04.2010"; // Работает с
+    public String birthdate = "11.07.1998"; // Дата рождения
 
     public void fillAddUserForm() { //Заполнение данных юзера
         $(By.name("rrf.user.userpic")).uploadFile(new File("src/test/resources/stqa.png"));
@@ -107,7 +120,7 @@ public class UserData { //Данные пользователя
         $(By.name("rrf.user.email")).setValue("atkachenko");
         $(By.name("rrf.user.phone")).setValue(phone());
         $(By.name("rrf.user.telegram")).setValue(telegram());
-        $(By.className("input__src-shared-forms-__3OP")).click();
+        $(By.className("caption__src-shared-forms-__2hP")).click();
         $(By.name("rrf.user.worksSince")).setValue(worksSince);
         $(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='*'])[7]/following::label[1]")).click();
         $(By.name("rrf.user.birthDate")).setValue(birthdate);

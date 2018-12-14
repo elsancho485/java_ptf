@@ -27,12 +27,12 @@ public class TestBase extends UserData {
             $(By.name("login")).setValue(login);
             $(By.name("passwd")).setValue(password).pressEnter();
         }
+
         $(By.id("nb-2")).click();
         switchTo().window(0);
         sleep(1000);
         $(By.id("menu__users")).click();
-        sleep(500);
-    }
+        }
 
     public void goToAddUserForm() { //Переход к форме создания сотрудника
         $(By.className("button__src-shared-AddButton-__3G-")).click();
@@ -43,17 +43,29 @@ public class TestBase extends UserData {
         $(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Активные'])[1]/following::p[1]")).click();
     }
 
-
     public void archivateUser() { //Отправка сотрудника из 1 ячейки в архив
         $(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Пользователь'])[1]/following::img[2]")).click();
         $(byText("Да")).click();
         sleep(5000);
     }
 
-    public void searchCreatedUserInList() { //Ищем имя и фамилию, созданного юзера в первой строке списка
-        $(By.className("name__src-users-components-UsersListItem-__1eu")).waitUntil(text(firstname().toUpperCase() + " " + lastname().toUpperCase()), 20000);
+    public void upgradeUser() { //Повышение грейда для сотрудника из 1 ячекйи на один грейд
+        $(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Пользователь'])[1]/following::img[1]")).click();
+        sleep(5000);
+        $(By.cssSelector("div[class^='Select Select--single has-value']")).click();
+        $$(By.cssSelector("div[class^='Select-menu-outer']")).findBy(text("G" + String.valueOf(getNextGrade()))).click();
+        $(By.id("salaryBonus")).clear();
+        $(By.id("salaryBonus")).setValue("12345");
+        $(byText("Отправить")).click();
     }
 
+    public void checkingUpgradeUser() { //Проверка на то,что в первой ячейке грейд увелился на 1
+        $(By.cssSelector("div[class^='grade__src-users-components-UsersListItem-__etq']")).shouldHave(text("G" + String.valueOf(getNextGrade())));
+    }
+
+    public void searchCreatedUserInList() { //Ищем имя и фамилию, созданного юзера в первой строке списка
+        $(By.className("name__src-users-components-UsersListItem-__1eu")).waitUntil(text(firstname().toUpperCase() + " " + lastname().toUpperCase()), 50000);
+    }
 
     public void searchUserNameInEditFormBefore() { //Поиск имени и фамилии в форме редактирования сотрудника до совершения действия с ним
         $(By.className("name__src-users-components-UsersListItem-__1eu")).waitUntil(visible, 3000);
@@ -85,4 +97,5 @@ public class TestBase extends UserData {
     public void closeAddUserForm() { //Клик по кнопке закрытия формы добавления сотрудника
         $(By.className("closeButton__src-users-components-NewUserForm-__Isr")).click();
     }
+
 }

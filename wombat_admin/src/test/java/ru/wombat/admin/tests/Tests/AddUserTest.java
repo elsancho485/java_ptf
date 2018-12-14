@@ -42,4 +42,12 @@ public class AddUserTest extends TestBase {
         archivateUser();
         searchUserNameInEditFormAfter();
     }
+
+    @Test
+    public void adminCanUpgradeUser() {
+        getGradeNumberBeforeUpgrade();
+        upgradeUser();
+        getGradeNumberAfterUpgrade();
+        checkingUpgradeUser();
+    }
 }
