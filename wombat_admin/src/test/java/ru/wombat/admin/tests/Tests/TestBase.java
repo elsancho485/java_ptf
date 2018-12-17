@@ -20,12 +20,20 @@ public class TestBase extends UserData {
         $(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Все метрики в одной системе!'])[1]/following::button[1]")).click();
         switchTo().window(1);
         sleep(5000);
-        try {
-            $(By.id("passp-field-login")).setValue(login).pressEnter();
-            $(By.id("passp-field-passwd")).setValue(password).pressEnter();
-        } catch (Throwable e) {
-            $(By.name("login")).setValue(login);
+//        try {
+//            $(By.id("passp-field-login")).setValue(login).pressEnter();
+//            $(By.id("passp-field-passwd")).setValue(password).pressEnter();
+//        } catch (Throwable e) {
+//            $(By.name("login")).setValue(login);
+//            $(By.name("passwd")).setValue(password).pressEnter();
+//        }
+        $(By.name("login")).setValue(login);
+        boolean passwordField = $(By.name("passwd")).isDisplayed();
+        if (passwordField) {
             $(By.name("passwd")).setValue(password).pressEnter();
+        } else{
+            $(By.id("passp-field-login")).pressEnter();
+            $(By.id("passp-field-passwd")).setValue(password).pressEnter();
         }
 
         $(By.id("nb-2")).click();

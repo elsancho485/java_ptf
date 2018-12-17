@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 
 public class AddUserTest extends TestBase {
 
-    @Test
+    @Test(priority = 1)
     public void adminCanAddNewUser() {
         goToAddUserForm();
         fillAddUserForm();
@@ -12,7 +12,7 @@ public class AddUserTest extends TestBase {
         searchCreatedUserInList();
     }
 
-    @Test
+    @Test(priority = 5)
     public void emptyFieldsErrorDisplaying() {
         goToAddUserForm();
         submitUserCreation();
@@ -20,7 +20,7 @@ public class AddUserTest extends TestBase {
         closeAddUserForm();
     }
 
-    @Test
+    @Test(priority = 4)
     public void errorAboutExistingEmail() {
         goToAddUserForm();
         fillAddUserFormWithExistingEmail();
@@ -29,21 +29,21 @@ public class AddUserTest extends TestBase {
         closeAddUserForm();
     }
 
-    @Test
+    @Test(priority = 2)
     public void adminCanEditUserData() {
         goToEditUserData();
         editFirstAndLastName();
         searchCreatedUserInList();
     }
 
-    @Test
+    @Test(priority = 6)
     public void adminCanArchivateUser() {
         searchUserNameInEditFormBefore();
         archivateUser();
         searchUserNameInEditFormAfter();
     }
 
-    @Test
+    @Test(priority = 3)
     public void adminCanUpgradeUser() {
         getGradeNumberBeforeUpgrade();
         upgradeUser();
